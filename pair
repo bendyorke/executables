@@ -1,0 +1,66 @@
+#!/bin/bash
+
+while [[ $1 = -* ]]; do
+  arg=$1; shift
+
+  case $arg in
+    -a)
+      if [[ $1 != [0-9]*.[0-9]*.[0-9]*.[0-9]* ]] ; then
+        echo "$1 is not a valid ip address"
+        exit 1
+      fi
+      export IP=$1
+      shift
+      ;;
+    -c|-t)
+      export COMMAND="-t \"$1; bash -l\""
+      shift
+      ;;
+    -e)
+      export SSH_IP=$(curl -s http://ifconfig.me)
+      ;;
+    -e--force)
+      export IP=$(curl -s http://ifconfig.me)
+      ;;
+    -h)
+      echo "pair [-a ip][-p num][-l][-e][-e--force]"
+      exit 1
+      ;;
+    -n)
+      export IP=$1
+      shift
+      ;;
+    -p)
+      if [[ $1 != [0-9]* ]] ; then
+        echo "$1 is not a valid port number"
+        exit 1
+      fi
+      export PORT=$1
+      shift
+      ;;
+    *)
+      echo "$arg is an invalid argument"
+      exit 1
+      ;;
+  esac
+done
+
+if [[ -z $IP ]] ; then
+  export IP=$(ifconfig en0 | grep -o '\(\d\{1,3\}\.\)\{3\}\d\{1,3\}' | head -n1)
+fi
+
+if [[ -z $SSH_IP ]] ; then
+  export SSH_IP=$IP
+fi
+
+if [[ -z $PORT ]] ; then
+  export PORT="22"
+fi
+
+if [[ -z $IP ]] ; then
+  echo "Please connect to a valid wireless network"
+  exit 1
+fi
+
+echo "Running: ssh pairbear@$SSH_IP -p$PORT $COMMAND"
+ssh pairbear@$IP -p$PORT $COMMAND
