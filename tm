@@ -13,7 +13,7 @@ while [[ $1 = -* ]]; do
       tmux kill-session -t $base && exit 0
       ;;
     -K)
-      tmux kill-server && exit 0
+      tmux kill-server 2> /dev/null && exit 0 || echo "No running TMUX servers" 1>&2 && exit 1
       ;;
     -r|-n)
       tmux kill-session -t $base
