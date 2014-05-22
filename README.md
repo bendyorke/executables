@@ -28,16 +28,21 @@ Alias to tmux list-sessions with a better error message
 Kills a tmux session named with the basename of your current directory
 
 ```
+  tm -K
+```
+Kills tmux server (and ALL sessions!)
+
+```
   tm -r / tm -n
 ```
 Restarts/creates a new tmux session for the current directory your in
 
 ##pair
 
-This command was written for two reasons: 
+This command was written for two reasons:
   1 - Since I host remote pairing sessions, I would repeatedly type the same thing over and over.  I wanted to simply be able to write 'pair'
   2 - I wanted to automate the retrival of ip adresses, be it internal or external
-  
+
 ###usage
 
 ```
