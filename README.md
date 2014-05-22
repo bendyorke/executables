@@ -23,12 +23,12 @@ Starts or joins a tmux-session, named with the basename of your current director
 Alias to tmux list-sessions with a better error message
 
 ```
-  tmux -k
+  tm -k
 ```
 Kills a tmux session named with the basename of your current directory
 
 ```
-  tmux -r / tmux -n
+  tm -r / tm -n
 ```
 Restarts/creates a new tmux session for the current directory your in
 
