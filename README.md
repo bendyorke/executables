@@ -7,10 +7,18 @@ This command is a tmux session manager, that aliases and automates a lot of help
 ###usage
 
 ```
-   tm [-l][-k][-r|-n]
+   tm [-l][-k][-r|-n][-s]
+```
+
+###config
+
+Set the default tmux new-session command through the env variable `$TMUX_COMMAND`.  If nothing is set, it skips it.  When reattaching to a session, it does not run.  It is suggested to store this in your shell config
+```
+  TMUX_COMMAND="./.tmux Enter" tm
 ```
 
 ###details
+
 
 ```
   tm
@@ -36,6 +44,11 @@ Kills tmux server (and ALL sessions!)
   tm -r / tm -n
 ```
 Restarts/creates a new tmux session for the current directory your in
+
+```
+  tm -s
+```
+Skips the default command run by TMUX
 
 ##pair
 
