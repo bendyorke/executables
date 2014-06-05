@@ -1,7 +1,8 @@
 #! /bin/bash
-usage="usage: tm [-l|--list][-k|--kill|--kill-session][-K|--kill-server][-r|-n|--restart|--new]"
+usage="usage: tm [-l|--list][-k|--kill|--kill-session][-K|--kill-server][-r|-n|--restart|--new][-s|--skip|--skip-command]"
 
 base=`basename $PWD`
+new_session_command="tmux -2 new-session -s $base -d && tmux send-keys $TMUX_COMMAND && tmux -2 at -t $base"
 while [[ $1 = -* ]]; do
   arg=$1; shift
 
@@ -21,6 +22,9 @@ while [[ $1 = -* ]]; do
     -h|--help)
       echo $usage && exit 0
       ;;
+    -s|--skip|--skip-command)
+      new_session_command="tmux -2 new-session -s $base"
+      ;;
     *)
       echo "Invalid flag $arg"
       echo $usage
@@ -29,4 +33,4 @@ while [[ $1 = -* ]]; do
   esac
 done
 
-tmux -2 at -t $base 2> /dev/null || tmux -2 new-session -s $base
+tmux -2 at -t $base 2> /dev/null || eval $new_session_command
