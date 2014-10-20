@@ -1,0 +1,12 @@
+#! /bin/bash
+if [[ -z $1 ]]; then
+  echo "Please enter a tld"
+  exit 1
+fi
+
+while read word; do
+  printf "\033[2K"
+  printf " $word.$1"
+  printf '\r'
+  `dig $word.$1 | grep -q "ANSWER SECTION" || echo $word.$1 >> ~/$1_domains`
+done < /usr/share/dict/words
